@@ -1,0 +1,9 @@
+- hosts: managed
+  become: yes
+  user: root
+
+  tasks:
+    - name: update AIDE
+      shell: |
+        /usr/sbin/aide --update 
+        cp /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz

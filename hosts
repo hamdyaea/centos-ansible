@@ -1,0 +1,11 @@
+/etc/ansible/hosts
+
+[control]
+#192.168.12.1
+#foo-[a:c].example.org
+#localhost ansible_connection=local
+
+[managed]
+#192.168.12.2
+#192.168.12.3
+45.32.157.220 ansible_connection=ssh  ansible_ssh_port=22000

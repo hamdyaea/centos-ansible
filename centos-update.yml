@@ -1,0 +1,9 @@
+- hosts: managed
+  become: yes
+  user: root
+
+  tasks:
+    - name: upgrade all CentOS packages
+      yum: 
+        name=* 
+        state=latest
