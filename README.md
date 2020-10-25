@@ -1,6 +1,6 @@
 ansible-playbook centos-update.yml   
 
-ansible-playbook centos-update.yml   
+ansible-playbook centos-aide.yml   
 
 
 
