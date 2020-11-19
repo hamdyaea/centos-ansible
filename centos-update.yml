@@ -7,3 +7,4 @@
       yum: 
         name=* 
         state=latest
+- import_playbook: centos-aide.yml
