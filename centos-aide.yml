@@ -7,6 +7,12 @@
   become: true
   gather_facts: false
   serial: 1
+  pre_tasks:
+    - name: Require explicit administrator approval for AIDE update
+      ansible.builtin.assert:
+        that:
+          - maintenance_approved | default(false) | bool
+        fail_msg: "AIDE update refused: set -e maintenance_approved=true after reviewing the inventory."
   tasks:
     - name: Generate candidate AIDE database without promoting it
       ansible.builtin.command: /usr/sbin/aide --update

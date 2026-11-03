@@ -1,11 +1,6 @@
-/etc/ansible/hosts
-
-[control]
-#192.168.12.1
-#foo-[a:c].example.org
-#localhost ansible_connection=local
-
+# Developer: Hamdy Abou El Anein
+# Contact: hamdy.aea@protonmail.com
+# Example-only inventory. No hosts are active by default.
+# Copy to a private inventory file and explicitly choose your target.
 [managed]
-#192.168.12.2
-#192.168.12.3
-45.32.157.220 ansible_connection=ssh  ansible_ssh_port=22000
+# example-host ansible_host=192.0.2.10 ansible_port=22

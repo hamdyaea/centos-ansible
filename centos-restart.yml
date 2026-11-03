@@ -7,6 +7,12 @@
   become: true
   gather_facts: false
   serial: 1
+  pre_tasks:
+    - name: Require explicit administrator approval for reboot
+      ansible.builtin.assert:
+        that:
+          - maintenance_approved | default(false) | bool
+        fail_msg: "Reboot refused: set -e maintenance_approved=true after reviewing the inventory."
   tasks:
     - name: Reboot and wait for the managed host to return
       ansible.builtin.reboot:
