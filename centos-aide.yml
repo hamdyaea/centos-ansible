@@ -1,9 +1,21 @@
-- hosts: managed
-  become: yes
-  user: root
-
+---
+# Developer: Hamdy Abou El Anein
+# Contact: hamdy.aea@protonmail.com
+# SPDX-License-Identifier: GPL-3.0-or-later
+- name: Generate AIDE candidate database for manual review
+  hosts: managed
+  become: true
+  gather_facts: false
+  serial: 1
   tasks:
-    - name: update AIDE
-      shell: |
-        /usr/sbin/aide --update 
-        cp /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
+    - name: Generate candidate AIDE database without promoting it
+      ansible.builtin.command: /usr/sbin/aide --update
+      register: aide_update
+      changed_when: true
+      failed_when: aide_update.rc not in [0, 1, 2, 3, 4, 5, 6, 7]
+    - name: Remind administrator to verify integrity differences
+      ansible.builtin.debug:
+        msg: >-
+          AIDE generated a candidate database. Investigate every change and
+          review the new database before manually replacing the trusted baseline.
+          This playbook never copies the candidate over the baseline.

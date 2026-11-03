@@ -1,10 +1,16 @@
-- hosts: managed
-  become: yes
-  user: root
-
+---
+# Developer: Hamdy Abou El Anein
+# Contact: hamdy.aea@protonmail.com
+# SPDX-License-Identifier: GPL-3.0-or-later
+- name: Update Enterprise Linux 8+ hosts
+  hosts: managed
+  become: true
+  gather_facts: true
+  serial: 1
   tasks:
-    - name: upgrade all CentOS packages
-      yum: 
-        name=* 
-        state=latest
-- import_playbook: centos-aide.yml
+    - name: Update installed packages with DNF
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+        update_cache: true
+      when: ansible_facts.os_family == "RedHat"
