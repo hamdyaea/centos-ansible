@@ -5,9 +5,19 @@
 - name: Update Enterprise Linux 8+ hosts
   hosts: managed
   become: true
-  gather_facts: true
+  gather_facts: false
   serial: 1
+  pre_tasks:
+    - name: Require explicit administrator approval for maintenance
+      ansible.builtin.assert:
+        that:
+          - maintenance_approved | default(false) | bool
+        fail_msg: >-
+          Refusing to change managed hosts. Review the inventory and
+          supply -e maintenance_approved=true for an approved maintenance window.
   tasks:
+    - name: Collect OS facts after administrator approval
+      ansible.builtin.setup:
     - name: Update installed packages with DNF
       ansible.builtin.dnf:
         name: "*"

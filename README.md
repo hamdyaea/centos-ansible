@@ -19,6 +19,25 @@ and should be migrated to a supported distribution.
   host to return; rebooting is a separate explicit operation.
 - No secrets are stored in the playbooks.
 
+## Explicit maintenance approval
+
+The repository inventory contains **no active hosts**. Copy `hosts` to a
+private inventory and configure only the systems you administer. A previously
+committed host address has been removed from the current source branch; note
+that Git history may still contain it.
+
+Every playbook refuses to proceed unless `maintenance_approved=true` is
+explicitly supplied. Approval does not replace a maintenance window,
+backup verification or host-by-host review. For an approved run only:
+
+```sh
+ansible-playbook -i /path/to/private-inventory -e maintenance_approved=true centos-update.yml
+```
+
+**Do not execute this command without an approved change window.** The
+update and reboot playbooks can change a system. Syntax checks do not
+execute maintenance tasks.
+
 ## Syntax-only validation
 
 ```sh
